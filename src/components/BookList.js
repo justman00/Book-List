@@ -1,5 +1,6 @@
 import React from "react";
 import BookShelf from "./BookShelf";
+import { Link } from "react-router-dom";
 
 const arr = ["Want to Read", "Currently Reading", "Read"];
 
@@ -23,9 +24,13 @@ const BookList = props => {
         </div>
       </div>
       <div className="open-search">
-        <button onClick={() => this.setState({ showSearchPage: true })}>
-          Add a book
-        </button>
+        <Link to="/search">
+          <button
+          // onClick={() => this.setState({ showSearchPage: true })}
+          >
+            Add a book
+          </button>
+        </Link>
       </div>
     </div>
   );
