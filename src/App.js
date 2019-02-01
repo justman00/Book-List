@@ -1,10 +1,11 @@
 import React from "react";
 // import * as BooksAPI from './BooksAPI'
 import "./App.css";
-import { Link, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import BookList from "./components/BookList";
 
 import { getAll, update, search } from "./BooksAPI";
+import SearchForm from "./components/SearchForm";
 
 class BooksApp extends React.Component {
   state = {
@@ -21,12 +22,14 @@ class BooksApp extends React.Component {
   };
 
   distributeState = data => {
-    console.log(data);
+    // function takes the entire data from the api and puts it into the state
+    // console.log(data);
     const read = data.filter(book => book.shelf === "read");
     const wantToRead = data.filter(book => book.shelf === "wantToRead");
     const currentlyReading = data.filter(
       book => book.shelf === "currentlyReading"
     );
+
     this.setState({
       read,
       currentlyReading,
@@ -35,6 +38,7 @@ class BooksApp extends React.Component {
   };
 
   componentDidMount = () => {
+    // the api call
     getAll().then(data =>
       this.setState({ data: data }, () => this.distributeState(this.state.data))
     );
@@ -43,6 +47,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
+        {/* route to the initial home page */}
         <Route
           exact
           path="/"
@@ -54,32 +59,8 @@ class BooksApp extends React.Component {
             />
           )}
         />
-        <Route
-          path="/search"
-          render={() => (
-            <div className="search-books">
-              <div className="search-books-bar">
-                <div>
-                  <Link to="/">
-                    <button
-                      className="close-search"
-                      // onClick={() => this.setState({ showSearchPage: false })}
-                    >
-                      Close
-                    </button>
-                  </Link>
-                </div>
-
-                <div className="search-books-input-wrapper">
-                  <input type="text" placeholder="Search by title or author" />
-                </div>
-              </div>
-              <div className="search-books-results">
-                <ol className="books-grid" />
-              </div>
-            </div>
-          )}
-        />
+        {/* route to the input page */}
+        <Route path="/search" render={() => <SearchForm />} />
       </div>
     );
   }
