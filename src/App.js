@@ -21,27 +21,33 @@ class BooksApp extends React.Component {
      */
   };
 
-  // make a function to setState of one of the book states and update by pushing them here
-  moveBook = (e, book) => {
-    // console.log("works");
-    // console.log(e.target);
-    if (e.target.value === "none") {
-      const read = this.state.read.filter(el => el !== book);
-      const currentlyReading = this.state.currentlyReading.filter(
-        el => el !== book
-      );
-      const wantToRead = this.state.wantToRead.filter(el => el !== book);
-      // const index1 = this.state.read.indexOf(read[0]);
+  helpMoveBook = (e, book) => {
+    const read = this.state.read.filter(el => el !== book);
+    const currentlyReading = this.state.currentlyReading.filter(
+      el => el !== book
+    );
+    const wantToRead = this.state.wantToRead.filter(el => el !== book);
+    this.setState({
+      read,
+      currentlyReading,
+      wantToRead
+    });
+  };
 
-      this.setState({
-        read,
-        currentlyReading,
-        wantToRead
-      });
-    } else if (!this.state[e.target.value].includes(book)) {
+  // move books to different shelves and change their
+  moveBook = (e, book) => {
+    // removes a book from my list of read books
+    if (e.target.value === "none") {
+      this.helpMoveBook(e, book);
+    }
+    // checks if one of the shelves already has the book and adds it there
+    else if (!this.state[e.target.value].includes(book)) {
+      this.helpMoveBook(e, book);
       this.setState({
         [e.target.value]: [...this.state[e.target.value], book]
       });
+
+      book["shelf"] = e.target.value;
     }
   };
 

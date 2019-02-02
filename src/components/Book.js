@@ -4,7 +4,12 @@ class Book extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    // this.state = { selectValue: "none" };
+    // console.log(props.detail);
+    if ("shelf" in this.props.detail) {
+      this.state = { selectValue: this.props.detail.shelf };
+    } else {
+      this.state = { selectValue: "none" };
+    }
   }
 
   render() {
@@ -26,11 +31,11 @@ class Book extends React.Component {
               <select
                 onChange={e => {
                   this.props.moveBook(e, this.props.detail);
-                  this.setState({ selectValue: e.target.value });
-                  this.props.detail.shelf = e.target.value;
-                  console.log(this.props.detail);
+                  this.setState({ selectValue: this.props.detail.shelf });
+                  // this.props.detail.shelf = e.target.value;
+                  // console.log(this.props.detail);
                 }}
-                value={this.props.detail.shelf}
+                value={this.state.selectValue}
               >
                 <option value="move" disabled>
                   Move to...

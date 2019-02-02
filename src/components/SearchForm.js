@@ -53,7 +53,11 @@ class SearchForm extends React.Component {
           <ol className="books-grid">
             {this.state.displayBooks.length > 1 ? (
               this.state.displayBooks.map(book => (
-                <Book moveBook={this.props.moveBook} detail={book} />
+                <Book
+                  key={book.id}
+                  moveBook={this.props.moveBook}
+                  detail={book}
+                />
               ))
             ) : (
               <div>Nothing Found</div>
