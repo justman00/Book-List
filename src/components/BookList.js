@@ -19,6 +19,7 @@ const BookList = props => {
               wantToRead={props.wantToRead}
               category={val}
               key={i}
+              moveBook={props.moveBook}
             />
           ))}
         </div>

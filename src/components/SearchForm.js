@@ -4,8 +4,9 @@ import { search } from "../BooksAPI";
 import Book from "./Book";
 
 class SearchForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.props = props;
     this.state = {
       displayBooks: [],
       inputValue: ""
@@ -50,9 +51,13 @@ class SearchForm extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.displayBooks.map(book => (
-              <Book detail={book} />
-            ))}
+            {this.state.displayBooks.length > 1 ? (
+              this.state.displayBooks.map(book => (
+                <Book moveBook={this.props.moveBook} detail={book} />
+              ))
+            ) : (
+              <div>Nothing Found</div>
+            )}
           </ol>
         </div>
       </div>

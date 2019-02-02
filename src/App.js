@@ -21,6 +21,30 @@ class BooksApp extends React.Component {
      */
   };
 
+  // make a function to setState of one of the book states and update by pushing them here
+  moveBook = (e, book) => {
+    // console.log("works");
+    // console.log(e.target);
+    if (e.target.value === "none") {
+      const read = this.state.read.filter(el => el !== book);
+      const currentlyReading = this.state.currentlyReading.filter(
+        el => el !== book
+      );
+      const wantToRead = this.state.wantToRead.filter(el => el !== book);
+      // const index1 = this.state.read.indexOf(read[0]);
+
+      this.setState({
+        read,
+        currentlyReading,
+        wantToRead
+      });
+    } else if (!this.state[e.target.value].includes(book)) {
+      this.setState({
+        [e.target.value]: [...this.state[e.target.value], book]
+      });
+    }
+  };
+
   distributeState = data => {
     // function takes the entire data from the api and puts it into the state
     // console.log(data);
@@ -56,11 +80,17 @@ class BooksApp extends React.Component {
               read={this.state.read}
               currentlyReading={this.state.currentlyReading}
               wantToRead={this.state.wantToRead}
+              moveBook={this.moveBook}
             />
           )}
         />
         {/* route to the input page */}
-        <Route path="/search" render={() => <SearchForm />} />
+        <Route
+          path="/search"
+          render={() => (
+            <SearchForm moveBook={this.moveBook} read={this.state.read} />
+          )}
+        />
       </div>
     );
   }
