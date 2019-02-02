@@ -1,15 +1,20 @@
 import React from "react";
 
+import {update} from '../BooksAPI'
+
 class Book extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    // console.log(props.detail);
-    if ("shelf" in this.props.detail) {
+    console.log(props.detail);
+    // console.log(Object.keys(this.props.detail));
+    if (Object.keys(this.props.detail).includes("shelf")) {
+      console.log(this.props.detail.title);
       this.state = { selectValue: this.props.detail.shelf };
     } else {
       this.state = { selectValue: "none" };
     }
+    // update(props.detail, "none");
   }
 
   render() {
@@ -23,15 +28,17 @@ class Book extends React.Component {
                 width: 128,
                 height: 193,
                 backgroundImage: `url(${
-                  this.props.detail.imageLinks.smallThumbnail
+                  this.props.detail.imageLinks ? this.props.detail.imageLinks.smallThumbnail : ""
                 })`
               }}
             />
             <div className="book-shelf-changer">
               <select
                 onChange={e => {
+                  console.log(this.props.detail);
                   this.props.moveBook(e, this.props.detail);
-                  this.setState({ selectValue: this.props.detail.shelf });
+                  this.setState({ selectValue: e.target.value });
+
                   // this.props.detail.shelf = e.target.value;
                   // console.log(this.props.detail);
                 }}

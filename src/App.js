@@ -39,15 +39,18 @@ class BooksApp extends React.Component {
     // removes a book from my list of read books
     if (e.target.value === "none") {
       this.helpMoveBook(e, book);
+      update(book, "none");
     }
     // checks if one of the shelves already has the book and adds it there
     else if (!this.state[e.target.value].includes(book)) {
+      console.log(book);
       this.helpMoveBook(e, book);
       this.setState({
         [e.target.value]: [...this.state[e.target.value], book]
       });
 
       book["shelf"] = e.target.value;
+      update(book, e.target.value).then(data => console.log(book));
     }
   };
 
@@ -93,9 +96,7 @@ class BooksApp extends React.Component {
         {/* route to the input page */}
         <Route
           path="/search"
-          render={() => (
-            <SearchForm moveBook={this.moveBook} read={this.state.read} />
-          )}
+          render={() => <SearchForm moveBook={this.moveBook} />}
         />
       </div>
     );
