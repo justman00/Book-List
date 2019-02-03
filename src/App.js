@@ -22,11 +22,13 @@ class BooksApp extends React.Component {
   };
 
   helpMoveBook = (e, book) => {
-    const read = this.state.read.filter(el => el !== book);
+    const read = this.state.read.filter(el => el.title !== book.title);
     const currentlyReading = this.state.currentlyReading.filter(
-      el => el !== book
+      el => el.title !== book.title
     );
-    const wantToRead = this.state.wantToRead.filter(el => el !== book);
+    const wantToRead = this.state.wantToRead.filter(
+      el => el.title !== book.title
+    );
     this.setState({
       read,
       currentlyReading,
@@ -43,7 +45,7 @@ class BooksApp extends React.Component {
     }
     // checks if one of the shelves already has the book and adds it there
     else if (!this.state[e.target.value].includes(book)) {
-      console.log(book);
+      // console.log(book);
       this.helpMoveBook(e, book);
       this.setState({
         [e.target.value]: [...this.state[e.target.value], book]
@@ -96,7 +98,14 @@ class BooksApp extends React.Component {
         {/* route to the input page */}
         <Route
           path="/search"
-          render={() => <SearchForm moveBook={this.moveBook} />}
+          render={() => (
+            <SearchForm
+              read={this.state.read}
+              currentlyReading={this.state.currentlyReading}
+              wantToRead={this.state.wantToRead}
+              moveBook={this.moveBook}
+            />
+          )}
         />
       </div>
     );

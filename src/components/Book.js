@@ -6,13 +6,32 @@ class Book extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    console.log(props.detail);
+    // console.log(props.detail);
+
+    let val = "none";
+    if(props.read){
+      const check1 = props.read.filter(el => el.title === props.detail.title);
+      if(check1.length !== 0){
+        val = check1[0].shelf;
+      }
+
+      const check2 = props.currentlyReading.filter(el => el.title === props.detail.title);
+      if(check2.length !== 0){
+        val = check2[0].shelf;
+      }
+
+      const check3 = props.wantToRead.filter(el => el.title === props.detail.title);
+      if(check3.length !== 0){
+        val = check3[0].shelf;
+      }
+    }
+
     // console.log(Object.keys(this.props.detail));
     if (Object.keys(this.props.detail).includes("shelf")) {
-      console.log(this.props.detail.title);
+      // console.log(this.props.detail.title);
       this.state = { selectValue: this.props.detail.shelf };
     } else {
-      this.state = { selectValue: "none" };
+      this.state = { selectValue: val };
     }
     // update(props.detail, "none");
   }
@@ -35,7 +54,7 @@ class Book extends React.Component {
             <div className="book-shelf-changer">
               <select
                 onChange={e => {
-                  console.log(this.props.detail);
+                  // console.log(this.props.detail);
                   this.props.moveBook(e, this.props.detail);
                   this.setState({ selectValue: e.target.value });
 

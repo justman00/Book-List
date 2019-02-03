@@ -54,6 +54,9 @@ class SearchForm extends React.Component {
             {this.state.displayBooks.length > 1 ? (
               this.state.displayBooks.map(book => (
                 <Book
+                  read={this.props.read}
+                  currentlyReading={this.props.currentlyReading}
+                  wantToRead={this.props.wantToRead}
                   key={book.id}
                   moveBook={this.props.moveBook}
                   detail={book}
